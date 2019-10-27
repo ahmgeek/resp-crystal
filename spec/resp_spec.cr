@@ -36,7 +36,7 @@ describe "Resp" do
 
     c.call("SELECT", "0")
     assert_equal 0, c.call("DBSIZE")
-    c.finialize
+    c.finalize
   end
 
   it "should accept a URI without a path" do
