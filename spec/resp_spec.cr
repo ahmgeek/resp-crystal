@@ -2,7 +2,7 @@ require "./spec_helper"
 
 describe "Resp" do
   before do
-    c = Resp.new("redis://localhost:#{REDIS_PORT}")
+    c = Resp.new("redis://#{REDIS_HOST}:#{REDIS_PORT}")
     c.call("FLUSHDB")
     c.finalize
   end
