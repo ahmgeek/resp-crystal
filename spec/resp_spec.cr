@@ -30,7 +30,7 @@ describe "Resp" do
   #end
 
   it "should accept db" do
-    c = Resp.new("redis://localhost:#{REDIS_PORT}/3")
+    c = Resp.new("redis://#{REDIS_HOST}:#{REDIS_PORT}/3")
     c.call("SET", "foo", "1")
     assert_equal 1, c.call("DBSIZE")
 
@@ -40,7 +40,7 @@ describe "Resp" do
   end
 
   it "should accept a URI without a path" do
-    c = Resp.new("redis://localhost:#{REDIS_PORT}")
+    c = Resp.new("redis://#{REDIS_HOST}:#{REDIS_PORT}")
     assert_equal "tcp_port:#{REDIS_PORT}", info(c, "server")["tcp_port:#{REDIS_PORT}"]
     c.finalize
   end
