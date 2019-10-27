@@ -2,8 +2,9 @@ require "./spec_helper"
 
 describe "Resp" do
   before do
-    @c = Resp.new("redis://localhost:#{REDIS_PORT}")
-    @c.call("FLUSHDB")
+    c = Resp.new("redis://localhost:#{REDIS_PORT}")
+    c.call("FLUSHDB")
+    c.finalize
   end
 
   it "should encode expressions as RESP" do
@@ -11,7 +12,9 @@ describe "Resp" do
   end
 
   it "should accept host and port" do
-    assert_equal "tcp_port:#{REDIS_PORT}", info(@c, "server")["tcp_port:#{REDIS_PORT}"]
+    c = Resp.new("redis://#{REDIS_HOST}:#{REDIS_PORT}")
+    assert_equal "tcp_port:#{REDIS_PORT}", info(c, "server")["tcp_port:#{REDIS_PORT}"]
+    c.finalize
   end
 
   #it "should accept auth" do
@@ -27,15 +30,19 @@ describe "Resp" do
   #end
 
   it "should accept db" do
-    @c.call("SET", "foo", "1")
+    c = Resp.new("redis://localhost:#{REDIS_PORT}/3")
+    c.call("SET", "foo", "1")
     assert_equal 1, c.call("DBSIZE")
 
-    @c.call("SELECT", "0")
+    c.call("SELECT", "0")
     assert_equal 0, c.call("DBSIZE")
+    c.finialize
   end
 
   it "should accept a URI without a path" do
-    assert_equal "tcp_port:#{REDIS_PORT}", info(@c, "server")["tcp_port:#{REDIS_PORT}"]
+    c = Resp.new("redis://localhost:#{REDIS_PORT}")
+    assert_equal "tcp_port:#{REDIS_PORT}", info(c, "server")["tcp_port:#{REDIS_PORT}"]
+    c.finalize
   end
 
   it "should accept a URI with an empty path" do
