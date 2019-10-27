@@ -4,6 +4,7 @@ describe "Resp" do
   before do
     puts("------------------------------------------")
     puts("#{REDIS_PORT}")
+    puts("#{REDIS_HOST}")
     puts("------------------------------------------")
     #c = Resp.new("redis://localhost:#{REDIS_PORT}")
     #c.call("FLUSHDB")
