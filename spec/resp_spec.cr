@@ -14,7 +14,7 @@ describe "Resp" do
   end
 
   it "should accept host and port" do
-    c = Resp.new("redis://#{REDIS_HOST}:#{REDIS_PORT}")
+    c = Resp.new("redis://0.0.0.0:6379")
     assert_equal "tcp_port:#{REDIS_PORT}", info(c, "server")["tcp_port:#{REDIS_PORT}"]
   end
 
